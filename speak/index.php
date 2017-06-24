@@ -11,11 +11,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 </head>
 <body>
+
+<script>
+    function speak() {
+        document.cookie = "city=" + $place.val() + ";";
+        console.log($problems.val());
+        if ($problems.val()!==" ") {
+            document.cookie = "problem=" + $problems.val() + ";";
+            return true;
+        } else {
+            alert("Select a problem");
+            return false;
+        }
+        return false;
+    }
+</script>
+
 <div class="container-fluid center-block" style="margin: 10%;">
-    <select class="form-control" id="country"></select>
-    <select class="form-control" id="state"></select>
-    <select class="form-control" id="place"></select>
-    <select class="form-control" id="problems"></select>
+    <form action="problems.php" onsubmit="speak()">
+        <select class="form-control" REQUIRED id="country"></select>
+        <select class="form-control" required id="state"></select>
+        <select class="form-control" required id="place"></select>
+        <select class="form-control" required id="problems"></select>
+        <input type="submit" class="center-block btn-primary btn">
+    </form>
 </div>
 
 <script>
@@ -26,7 +45,7 @@
     $country.select2({
         placeholder: "Loading..."
     });
-    $.getJSON("https://www.soch.online/getCountries.php",function (data) {
+    $.getJSON("https://www.soch.online/getCountries.php", function (data) {
         $country.select2({
             data: data,
             placeholder: "Select Country"
@@ -43,10 +62,16 @@
     });
     $place.prop("disabled", true);
     $problems.select2({
+        data: [
+            "Abuse Against Women",
+            "Education",
+            "Child labour",
+            "Community Problems",
+            "Other"
+        ],
         placeholder: "Select Problem"
     });
-
-    $problems.prop("disabled", true);
+    $problems.select2("val", " ");
 
     $country.on("select2:select", function (e) {
         var selected_country = $(e.currentTarget).val();
