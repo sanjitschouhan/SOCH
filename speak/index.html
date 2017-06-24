@@ -11,23 +11,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 </head>
 <body background="/images/back.jpg">
-<div class="border margin">
+<div class="container">
     <div id="text-carousel" class="carousel slide" data-ride="carousel">
         <!-- Wrapper for slides -->
         <div class="row">
-            <div class="col-xs-offset-3 col-xs-6">
+            <div class="col-xs-offset-1 col-xs-9">
                 <div class="carousel-inner">
                     <div class="item active">
                         <div class="carousel-content">
                             <blockquote class="blockquote color">
-                                <p>"Those who improve with age embrace the power of personal growth and personal achievement and begin to replace youth with wisdom, innocence with understanding, and lack of purpose with self-actualization."</p>
+                                <p>"Those who improve with age embrace the power of personal growth and personal
+                                    achievement and begin to replace youth with wisdom, innocence with understanding,
+                                    and lack of purpose with self-actualization."</p>
                             </blockquote>
                         </div>
                     </div>
                     <div class="item">
                         <div class="carousel-content">
                             <blockquote class="blockquote color">
-                                <p>"Education is not a tool for development - individual, community and the nation. It is the foundation for our future. It is empowerment to make choices and emboldens the youth to chase their dreams."</p>
+                                <p>"Education is not a tool for development - individual, community and the nation. It
+                                    is the foundation for our future. It is empowerment to make choices and emboldens
+                                    the youth to chase their dreams."</p>
                             </blockquote>
 
                         </div>
@@ -35,9 +39,10 @@
                     <div class="item">
                         <div class="carousel-content">
                             <blockquote class="blockquote color">
-                                <p>"Independence is a heady draught, and if you drink it in your youth, it can have the same effect on the brain as young wine does. It does not matter that its taste is not always appealing. It is addictive and with each drink you want more."</p>
+                                <p>"Independence is a heady draught, and if you drink it in your youth, it can have the
+                                    same effect on the brain as young wine does. It does not matter that its taste is
+                                    not always appealing. It is addictive and with each drink you want more."</p>
                             </blockquote>
-
                         </div>
                     </div>
 
@@ -55,9 +60,9 @@
 </div>
 <script>
     function speak() {
-        document.cookie = "city=" + $place.val() + ";";
+        document.cookie = "city=" + $city.val() + ";";
         console.log($problems.val());
-        if ($problems.val()!==" ") {
+        if ($problems.val() !== " ") {
             document.cookie = "problem=" + $problems.val() + ";";
             return true;
         } else {
@@ -68,20 +73,32 @@
     }
 </script>
 
-<div class="container-fluid center-block border-select" style="margin: 10%;">
-    <form action="problems.php" onsubmit="speak()">
-        <select class="form-control" REQUIRED id="country"></select>
-        <select class="form-control" required id="state"></select>
-        <select class="form-control" required id="place"></select>
-        <select class="form-control" required id="problems"></select>
-        <input type="submit" class="center-block btn-primary btn">
-    </form>
+<div class="container">
+    <div class="form-wrapper" style="padding-top: 20px; width: 60%; margin: 0 auto; color: #ffffff;">
+        <form action="problems.php" onsubmit="speak()">
+            <div class="form-group">
+                <label for="country">Country : </label><select class="form-control" REQUIRED id="country"></select>
+            </div>
+            <div class="form-group">
+                <label for="state">State : </label><select class="form-control" required id="state"></select>
+            </div>
+            <div class="form-group">
+                <label for="city">City : </label><select class="form-control" required id="city"></select>
+            </div>
+            <div class="form-group">
+                <label for="problems">Problem : </label><select class="form-control" required id="problems"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success">
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
     $country = $("#country");
     $state = $("#state");
-    $place = $("#place");
+    $city = $("#city");
     $problems = $("#problems");
     $country.select2({
         placeholder: "Loading..."
@@ -98,10 +115,10 @@
         placeholder: "Select State"
     });
     $state.prop("disabled", true);
-    $place.select2({
-        placeholder: "Select Place"
+    $city.select2({
+        placeholder: "Select City"
     });
-    $place.prop("disabled", true);
+    $city.prop("disabled", true);
     $problems.select2({
         data: [
             "Abuse Against Women",
@@ -141,23 +158,23 @@
 
     $state.on("select2:select", function (e) {
         var selected_state = $(e.currentTarget).val();
-        $place.prop("disabled", true);
-        $place.select2({
+        $city.prop("disabled", true);
+        $city.select2({
             placeholder: "Loading..."
         });
-        $place.select2('val', '');
-        $place.empty();
+        $city.select2('val', '');
+        $city.empty();
         $.getJSON('https://www.soch.online/getCities.php?state=' + selected_state, function (data) {
             if (data.length > 0) {
-                $place.prop("disabled", false);
-                $place.select2({
-                    placeholder: "Select Place",
+                $city.prop("disabled", false);
+                $city.select2({
+                    placeholder: "Select City",
                     data: data
                 });
-                $place.select2('val', '');
+                $city.select2('val', '');
             } else {
-                $place.select2({
-                    placeholder: "No State Available"
+                $city.select2({
+                    placeholder: "No City Available"
                 });
             }
         });
@@ -166,15 +183,14 @@
 </script>
 
 
-
-
-
 </body>
 </html>
 
 <style>
     .select2-selection__arrow {
-        display: none;
+        /*display: none;*/
+        margin-top: 5px;
+        margin-right:5px;
     }
 
     .select2-selection.select2-selection--single {
@@ -185,6 +201,7 @@
     .select2-container {
         width: 100% !important;
     }
+
     .blockquote {
         display: block;
         margin-top: 1em;
@@ -192,23 +209,27 @@
         margin-left: 40px;
         margin-right: 40px;
     }
-    .color{
+
+    .color {
         color: white;
     }
-    .border{
+
+    .border {
         border: solid;
         border-radius: 30px;
         margin: 6px;
         background-color: orangered;
 
     }
-    .border-select{
+
+    .border-select {
         border: solid;
         border-radius: 30px;
         border-spacing: 50px;
-        background-color:orangered ;
+        background-color: orangered;
     }
-    .margin{
-        margin-top:70px;
+
+    .margin {
+        margin-top: 70px;
     }
 </style>

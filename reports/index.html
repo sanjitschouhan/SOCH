@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/jquery-3.1.1.js"></script>
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <meta charset="UTF-8">
+    <title>SOCH</title>
+</head>
+<body>
+<script>
+    function submitData() {
+        document.cookie = "city=" + $city.val() + ";";
+        console.log($problems.val());
+        document.cookie = "problem=" + $problems.val() + ";";
+        document.cookie = "desc=" + $("#description").val() + ";";
+        return true;
+    }
+</script>
+<div class="container">
+    <h2>Report</h2>
+    <form class="form-horizontal" id="report-form" action="submit.php" onsubmit="submitData()">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="country">Country:</label>
+            <div class="col-sm-10">
+                <select class="form-control" REQUIRED id="country"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="state">State:</label>
+            <div class="col-sm-10">
+                <select class="form-control" required id="state"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="city">City:</label>
+            <div class="col-sm-10">
+                <select class="form-control" required id="city"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="problems">Problem:</label>
+            <div class="col-sm-10">
+                <select class="form-control" required id="problems"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="description">Description:</label>
+            <div class="col-sm-10">
+                <textarea form="report-form" class="form-control" required id="description"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $country = $("#country");
+    $state = $("#state");
+    $city = $("#city");
+    $problems = $("#problems");
+    $country.select2({
+        placeholder: "Loading..."
+    });
+    $.getJSON("https://www.soch.online/getCountries.php", function (data) {
+        $country.select2({
+            data: data,
+            placeholder: "Select Country"
+        });
+        $country.select2("val", " ");
+    });
+    $country.select2("val", " ");
+    $state.select2({
+        placeholder: "Select State"
+    });
+    $state.prop("disabled", true);
+    $city.select2({
+        placeholder: "Select Place"
+    });
+    $city.prop("disabled", true);
+    $problems.select2({
+        data: [
+            "Abuse Against Women",
+            "Education",
+            "Child labour",
+            "Community Problems",
+            "Other"
+        ],
+        placeholder: "Select Problem"
+    });
+    $problems.select2("val", " ");
+
+    $country.on("select2:select", function (e) {
+        var selected_country = $(e.currentTarget).val();
+        $state.prop("disabled", true);
+        $state.select2({
+            placeholder: "Loading..."
+        });
+        $state.select2('val', '');
+        $state.empty();
+        $.getJSON('https://www.soch.online/getStates.php?country=' + selected_country, function (data) {
+            if (data.length > 0) {
+                $state.prop("disabled", false);
+                $state.select2({
+                    placeholder: "Select State",
+                    data: data
+                });
+                $state.select2('val', '');
+            } else {
+                $state.select2({
+                    placeholder: "No State Available"
+                });
+            }
+        });
+
+    });
+
+    $state.on("select2:select", function (e) {
+        var selected_state = $(e.currentTarget).val();
+        $city.prop("disabled", true);
+        $city.select2({
+            placeholder: "Loading..."
+        });
+        $city.select2('val', '');
+        $city.empty();
+        $.getJSON('https://www.soch.online/getCities.php?state=' + selected_state, function (data) {
+            if (data.length > 0) {
+                $city.prop("disabled", false);
+                $city.select2({
+                    placeholder: "Select City",
+                    data: data
+                });
+                $city.select2('val', '');
+            } else {
+                $city.select2({
+                    placeholder: "No City Available"
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>
+
+<style>
+    .select2-selection__arrow {
+        /*display: none;*/
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+
+    .select2-selection.select2-selection--single {
+        padding: 5px;
+        height: 40px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
