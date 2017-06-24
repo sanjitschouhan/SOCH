@@ -19,13 +19,84 @@
 </div>
 
 <script>
-    var countries = ["India"];
     $country = $("#country");
+    $state = $("#state");
+    $place = $("#place");
+    $problems = $("#problems");
     $country.select2({
-        data: countries,
-        placeholder: "Select Country"
+        placeholder: "Loading..."
+    });
+    $.getJSON("https://www.soch.online/getCountries.php",function (data) {
+        $country.select2({
+            data: data,
+            placeholder: "Select Country"
+        });
+        $country.select2("val", " ");
     });
     $country.select2("val", " ");
+    $state.select2({
+        placeholder: "Select State"
+    });
+    $state.prop("disabled", true);
+    $place.select2({
+        placeholder: "Select Place"
+    });
+    $place.prop("disabled", true);
+    $problems.select2({
+        placeholder: "Select Problem"
+    });
+
+    $problems.prop("disabled", true);
+
+    $country.on("select2:select", function (e) {
+        var selected_country = $(e.currentTarget).val();
+        $state.prop("disabled", true);
+        $state.select2({
+            placeholder: "Loading..."
+        });
+        $state.select2('val', '');
+        $state.empty();
+        $.getJSON('https://www.soch.online/getStates.php?country=' + selected_country, function (data) {
+            if (data.length > 0) {
+                $state.prop("disabled", false);
+                $state.select2({
+                    placeholder: "Select State",
+                    data: data
+                });
+                $state.select2('val', '');
+            } else {
+                $state.select2({
+                    placeholder: "No State Available"
+                });
+            }
+        });
+
+    });
+
+    $state.on("select2:select", function (e) {
+        var selected_state = $(e.currentTarget).val();
+        $place.prop("disabled", true);
+        $place.select2({
+            placeholder: "Loading..."
+        });
+        $place.select2('val', '');
+        $place.empty();
+        $.getJSON('https://www.soch.online/getCities.php?state=' + selected_state, function (data) {
+            if (data.length > 0) {
+                $place.prop("disabled", false);
+                $place.select2({
+                    placeholder: "Select Place",
+                    data: data
+                });
+                $place.select2('val', '');
+            } else {
+                $place.select2({
+                    placeholder: "No State Available"
+                });
+            }
+        });
+
+    });
 </script>
 </body>
 </html>
