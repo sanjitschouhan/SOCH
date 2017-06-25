@@ -1,11 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script src="/jquery-3.1.1.js"></script>
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title>SOCH</title>
 </head>
 <body background="/images/back.jpg" style='font: "Helvetica Neue", Helvetica, Arial, sans-serif;'>
 
+<div class="container">
+    <div id="results-container" class="row">
 
+    </div>
+</div>
+
+<script>
+    var json = [{
+        "name": " Aalaya Darshanam Trust",
+        "url": "http://www.aalayadarshanam.com/",
+        "problem": "others",
+        "location": "Hyderabad"
+    },
+        {
+            "name": "Abhyuday Educational Society",
+            "url": "https://www.facebook.com/AESHighSchoolCollege/",
+            "problem": "Educational",
+            "location": "Hyderabad"
+        },
+        {
+            "name": "Blood Cross Society",
+            "url": "http://www.bloodcrosssociety.org/",
+            "problem": "others",
+            "location": "Hyderabad"
+        },
+        {
+            "name": "Women Welfare 1",
+            "url": "ww1.com",
+            "problem": "Abuse Against Women",
+            "location": "Hyderabad"
+        },
+        {
+            "name": "Women Welfare 2",
+            "url": "ww2.com",
+            "problem": "Abuse Against Women",
+            "location": "Hyderabad"
+        },
+        {
+            "name": "Child Care 1",
+            "url": "cc1.com",
+            "problem": "Child Labour",
+            "location": "Hyderabad"
+        },
+        {
+            "name": "Child Care 2",
+            "url": "cc2.com",
+            "problem": "Child Labour",
+            "location": "Hyderabad "
+        },
+
+        {
+            "name": "INDIAN WOMEN AND CHILD WELFARE TRUST",
+            "url": "http://www.iwcwtministry.org/",
+            "problem": "Child Abuse",
+            "location": "Mumbai"
+        },
+        {
+            "name": "All India Human Rights Bureau",
+            "url": "http://www.humanrightscouncil.in/",
+            "problem": "Abuse Against Women",
+            "location": "Mumbai"
+        },
+        {
+            "name": "Women Welfare 1",
+            "url": "ww1.com",
+            "problem": "Abuse Against Women ",
+            "location": "Mumbai"
+        },
+        {
+            "name": "Women Welfare 2",
+            "url": "ww2.com",
+            "problem": "Abuse Against Women",
+            "location": "Mumbai"
+        },
+        {
+            "name": "Child Care 1",
+            "url": "cc1.com",
+            "problem": "Child Labour",
+            "location": "Mumbai"
+        },
+        {
+            "name": "Child Care 2",
+            "url": "cc2.com",
+            "problem": "Child Labour",
+            "location": "Mumbai "
+        },
+
+        {
+            "name": "Aasra for Community Transformation(ACT India)",
+            "url": "http://aasraindia.webnode.com/",
+            "problem": "Abuse Against Women",
+            "location": "Delhi "
+        },
+        {
+            "name": "Aditi Foundation",
+            "url": "http://aditifoundation.org/aboutus.html",
+            "problem": "Abuse Against Women",
+            "location": "Delhi"
+        },
+        {
+            "name": "Women Welfare 1",
+            "url": "ww1.com",
+            "problem": "Abuse Against Women",
+            "location": "Delhi"
+        },
+        {
+            "name": "Women Welfare 2",
+            "url": "ww2.com",
+            "problem": "Abuse Against Women",
+            "location": "Delhi"
+        },
+        {
+            "name": "Child Care 1",
+            "url": "cc1.com",
+            "problem": "Child Labour",
+            "location": "Delhi"
+        },
+        {
+            "name": "Child Care 2",
+            "url": "cc2.com",
+            "problem": "Child Labour",
+            "location": "Delhi"
+        },
+        {
+            "name": "Human Rights Foundation",
+            "url": "https://www.hrf.org/",
+            "problem": "Child Labour",
+            "location": "Ahmedabad"
+        },
+        {
+            "name": "Centre for Social Justice",
+            "url": "www.centreforsocialjustice.net/",
+            "problem": "Abuse Against Women",
+            "location": "Ahmedabad"
+        },
+        {
+            "name": "Women Welfare 1",
+            "url": "ww1.com",
+            "problem": "Abuse Against Women",
+            "location": "Ahmedabad"
+        },
+        {
+            "name": "Women Welfare 2 ",
+            "url": "ww2.com",
+            "problem": "Abuse Against Women",
+            "location": "Ahmedabad"
+        },
+        {
+            "name": "Child Care 1",
+            "url": "cc1.com",
+            "problem": "Child Labour",
+            "location": "Ahmedabad"
+        },
+        {
+            "name": "Child Care 2",
+            "url": "cc2.com",
+            "problem": "Child Labour",
+            "location": "Ahmedabad"
+        }
+    ];
+
+    $container = $("#results-container");
+    console.log(json.length);
+    $.each(json, function (i) {
+        var div = $('<div/>')
+            .addClass('col-xs-6 col-sm-4 col-md-4')
+            .appendTo($container);
+        var panel = $('<div/>')
+            .addClass('panel panel-default')
+            .css("height",200)
+            .appendTo(div);
+        var head = $('<div/>')
+            .addClass("panel-heading")
+            .appendTo(panel)
+        var title = $('<div/>')
+            .addClass("panel-title")
+            .text(json[i]['name'])
+            .appendTo(head);
+        var body = $('<div/>')
+            .addClass("panel-body")
+            .appendTo(panel);
+        var problem = $('<div/>')
+            .addClass("problem-class fa fa-superpowers")
+            .text(json[i]['problem'])
+            .appendTo(body);
+        var url = $('<a/>')
+            .css("display", "block")
+            .addClass("link-class fa fa-link")
+            .text("Visit Website")
+            .attr("href", json[i]['url'])
+            .appendTo(body);
+        var email = $('<a/>')
+            .css("display", "block")
+            .addClass("mail-class fa fa-envelope")
+            .text("Mail Us")
+            .attr("href", "mailto:" + json[i]['url'])
+            .appendTo(body);
+        var location = $('<div/>')
+            .addClass("location-class fa fa-map-marker")
+            .text(json[i]['location'])
+            .appendTo(body);
+    });
+
+//    $pb = $(".panel-body");
+//    console.log($pb);
+//    $height = 0;
+//    $.each($pb, function (i) {
+//        if ($height < $pb[i].height) {
+//            $height = $pb[i].height;
+//        }
+//        console.log($height);
+//    })
+</script>
 </body>
 </html>
+
+<style>
+    .panel-body * {
+        margin-bottom: 10px;
+    }
+
+    .panel-body * ::before {
+        padding-right: 10px;
+    }
+</style>
