@@ -13,5 +13,5 @@ mysqli_close($conn);
 ?>
 
 <script>
-    window.open("/speak/","_self");
+    window.open("/speak/problems.php","_self");
 </script>
