@@ -5,19 +5,18 @@
     <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
     <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <meta charset="UTF-8">
-    <title>SOCH</title>
+    <title>soch</title>
 </head>
-<body>
+<body background="/images/back.jpg" style='font: "Helvetica Neue", Helvetica, Arial, sans-serif;'>
 <script>
     function submitData() {
         document.cookie = "city=" + $city.val() + ";";
         console.log($problems.val());
         document.cookie = "problem=" + $problems.val() + ";";
-        document.cookie = "desc=" + $("#description").val() + ";";
+        document.cookie = "desc=" + $("#description").text() + ";";
         return true;
     }
 </script>

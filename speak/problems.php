@@ -11,6 +11,10 @@ $result = mysqli_query($conn, "select * from problems where city_id=" . $id . " 
 while ($r = mysqli_fetch_assoc($result)) {
     $rows[] = $r;
 }
+if (count($rows)==0){
+    echo "<h3 class='text-center'>No Result found for current query</h3>";
+    die();
+}
 echo "<script>";
 echo "var probs = " . json_encode($rows);
 echo "</script>";
